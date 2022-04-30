@@ -62,8 +62,7 @@ ul {
   inset: auto auto calc(100% - 4px) calc(100% - 20px) !important;
   width: 15px !important;
   height: 15px !important;
-  min-width: none !important;
-  min-height: none;
+  min-width: initial !important;
   font-size: 8px;
 }
 
