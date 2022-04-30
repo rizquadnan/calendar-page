@@ -158,8 +158,9 @@ export default Vue.extend({
     initialDate: {
       immediate: true,
       handler(newVal) {
-        this.navigationDate = newVal;
-        this.selectedDate = newVal;
+        const date = newVal ? newVal : new Date().toISOString().slice(0, 10);
+        this.navigationDate = date;
+        this.selectedDate = date;
       },
     },
   },
