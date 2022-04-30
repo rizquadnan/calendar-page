@@ -127,7 +127,7 @@ export default Vue.extend({
   padding-top: 48px;
 }
 .calendar-wrapper {
-  max-width: 327px;
+  max-width: 336px;
   min-height: 346px;
   margin: 0 auto;
 }
