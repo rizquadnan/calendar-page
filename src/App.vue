@@ -28,6 +28,9 @@
       </div>
       <AppFooter />
     </div>
+    <v-snackbar v-model="snackbar.isVisible" :timeout="snackbar.duration">
+      {{ snackbar.message }}
+    </v-snackbar>
   </v-app>
 </template>
 
@@ -38,6 +41,21 @@ import OrderList from "./components/OrderList/OrderList.vue";
 import AppFooter from "./components/AppFooter/AppFooter.vue";
 import { fetcher } from "./shared";
 
+const MOCK_DATA = {
+  calendar: {
+    initialDate: "2022-04-02",
+    blockedDates: [
+      "2022-04-04",
+      "2022-04-05",
+      "2022-04-06",
+      "2022-04-30",
+      "2022-05-01",
+      "2022-05-02",
+      "2022-05-03",
+    ],
+    reservedDates: ["2022-04-07", "2022-04-15", "2022-05-08"],
+  },
+};
 export default Vue.extend({
   name: "App",
   components: {
@@ -46,10 +64,15 @@ export default Vue.extend({
     AppFooter,
   },
   data: () => ({
+    snackbar: {
+      isVisible: false,
+      message: "hello",
+      duration: 3000,
+    },
     calendar: {
       initialDate: "",
-      blockedDates: [],
-      reservedDates: [],
+      blockedDates: [] as string[],
+      reservedDates: [] as string[],
     },
   }),
   methods: {
@@ -76,7 +99,14 @@ export default Vue.extend({
 
       this.calendar.reservedDates = reservedDates;
       this.calendar.blockedDates = blockedDates;
-    } catch (error) {
+    } catch (e) {
+      const error = e as Error;
+      this.snackbar.isVisible = true;
+      this.snackbar.message = `${error.message}. Displayed calendar with placeholder data`;
+
+      this.calendar.blockedDates = MOCK_DATA.calendar.blockedDates;
+      this.calendar.reservedDates = MOCK_DATA.calendar.reservedDates;
+
       console.error(error);
     }
   },
