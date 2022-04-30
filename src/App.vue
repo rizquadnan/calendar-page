@@ -15,9 +15,9 @@
           </header>
           <div class="calendar-wrapper">
             <Calendar
-              :initialDate="mockData.calendar.initialDate"
-              :blockedDates="mockData.calendar.blockedDates"
-              :reservedDates="mockData.calendar.reservedDates"
+              :initialDate="calendar.initialDate"
+              :blockedDates="calendar.blockedDates"
+              :reservedDates="calendar.reservedDates"
               :onChangeDate="onChangeDate"
             />
           </div>
@@ -36,6 +36,7 @@ import Vue from "vue";
 import { Calendar } from "@/components";
 import OrderList from "./components/OrderList/OrderList.vue";
 import AppFooter from "./components/AppFooter/AppFooter.vue";
+import { fetcher } from "./shared";
 
 export default Vue.extend({
   name: "App",
@@ -45,26 +46,30 @@ export default Vue.extend({
     AppFooter,
   },
   data: () => ({
-    mockData: {
-      calendar: {
-        initialDate: "2022-04-02",
-        blockedDates: [
-          "2022-04-04",
-          "2022-04-05",
-          "2022-04-06",
-          "2022-04-30",
-          "2022-05-01",
-          "2022-05-02",
-          "2022-05-03",
-        ],
-        reservedDates: ["2022-04-07", "2022-04-15", "2022-05-08"],
-      },
+    calendar: {
+      initialDate: "2022-04-02",
+      blockedDates: [],
+      reservedDates: [],
     },
   }),
   methods: {
     onChangeDate(newDate: string) {
       window.alert(`New date: ${newDate}`);
     },
+  },
+  async mounted() {
+    try {
+      const [{ data: reservedDates }, { data: blockedDates }] =
+        await Promise.all([
+          fetcher.get("/reserved_dates"),
+          fetcher.get("/blocked_dates"),
+        ]);
+
+      this.calendar.reservedDates = reservedDates;
+      this.calendar.blockedDates = blockedDates;
+    } catch (error) {
+      console.error(error);
+    }
   },
 });
 </script>
