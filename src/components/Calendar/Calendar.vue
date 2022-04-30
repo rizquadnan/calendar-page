@@ -4,7 +4,7 @@
       <div class="d-flex justify-space-between align-center">
         <time
           :datetime="navigationDate"
-          class="text-h6 font-weight-bold mr-1"
+          class="text-body-1 font-weight-bold mr-1"
           >{{ dateLabel }}</time
         >
         <nav>
@@ -166,13 +166,17 @@ export default Vue.extend({
 });
 </script>
 
-<style scoped lang="scss">
+<style scoped>
 ::v-deep .v-picker__title {
   display: none;
 }
 
 ::v-deep .v-date-picker-header {
   display: none;
+}
+
+::v-deep .v-picker.v-card {
+  background: transparent;
 }
 
 ::v-deep .v-date-picker-table {
@@ -187,6 +191,7 @@ export default Vue.extend({
 
 ::v-deep .v-picker__body {
   width: 100% !important;
+  background: transparent !important;
 }
 
 ::v-deep .v-date-picker-table table {
@@ -198,11 +203,11 @@ export default Vue.extend({
 }
 
 ::v-deep .v-date-picker-table th {
-  width: 46px;
+  width: 48px;
 }
 
 ::v-deep .v-date-picker-table tbody td {
-  height: 46px;
+  height: 48px;
 }
 
 ::v-deep .v-date-picker-table .v-btn {
@@ -217,12 +222,12 @@ export default Vue.extend({
 ::v-deep .v-date-picker-table .v-btn--disabled::before {
   content: "";
   position: absolute;
-  height: 46px;
-  width: 46px;
+  height: 48px;
+  width: 48px;
   background: #eaeaea;
   opacity: 1;
   border-radius: 0;
-  top: 0;
+  top: -2px;
   left: -6px;
   right: initial;
   bottom: initial;
@@ -245,9 +250,5 @@ export default Vue.extend({
 ::v-deep .v-date-picker-table__events div {
   width: 5px;
   height: 5px;
-}
-
-.wrapper {
-  max-width: 336px;
 }
 </style>
