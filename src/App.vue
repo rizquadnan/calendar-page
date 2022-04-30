@@ -47,17 +47,26 @@ export default Vue.extend({
   },
   data: () => ({
     calendar: {
-      initialDate: "2022-04-02",
+      initialDate: "",
       blockedDates: [],
       reservedDates: [],
     },
   }),
   methods: {
     onChangeDate(newDate: string) {
-      window.alert(`New date: ${newDate}`);
+      this.$store.commit("saveSelectedDate", newDate);
+    },
+    loadInitialDateFromStore() {
+      const cachedSelectedDate = this.$store.state.selectedDate;
+
+      if (cachedSelectedDate) {
+        this.calendar.initialDate = cachedSelectedDate;
+      }
     },
   },
   async mounted() {
+    this.loadInitialDateFromStore();
+
     try {
       const [{ data: reservedDates }, { data: blockedDates }] =
         await Promise.all([
